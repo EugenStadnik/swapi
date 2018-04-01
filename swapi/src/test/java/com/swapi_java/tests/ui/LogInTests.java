@@ -27,6 +27,8 @@ public class LogInTests extends TestConfiguration {
 	
 	private static String propertiesFile = "./config.properties";
 	private String baseURL = getLoginDomainBaseURL();
+	private String login = getLogin();
+	private String password = getPassword();
     private WebDriver driver;
     private LoginPage loginPage;
 	
@@ -75,48 +77,51 @@ public class LogInTests extends TestConfiguration {
 	@Test
 	public void test01_loginPagePositive() {
 		verifyMainLoginPageAttributes(loginPage);
-		MainPage mainPage = loginPage.logIn(getLogin(), getPassword());
+		MainPage mainPage = loginPage.logIn(login, password);
 		assertThat(mainPage.getDashboardBtnName(), equalTo(BarElementsTexts.DASHBOARD.toString()));
 		assertThat(mainPage.getVolumeBtnName(), equalTo(MainPageElementsTexts.VOLUNE.toString()));
-		mainPage.clickUserBtn();
-		assertThat(mainPage.getUsername(), equalTo(getLogin()));
-		assertThat(mainPage.getLogOutBtnName(), equalTo(BarElementsTexts.LOGOUT.toString()));
-		mainPage.clickLogOut();
 	}
 	
 	@Test
 	public void test02_loginPageNoDataNegative() {
 		loginPage.clickLogin();
 		verifyMainLoginPageAttributes(loginPage);
-		assertThat(loginPage.isErrorMessagePresent(), equalTo(false));
+		assertThat(loginPage.isErrorMessageVisible(), equalTo(false));
 	}
 	
 	@Test
 	public void test03_loginPageInvalidDataNegative() {
-		loginPage.logIn("invalid", getPassword());
+		loginPage.logInNegative("invalid", password);
 		verifyMainLoginPageAttributes(loginPage);
-		assertThat(loginPage.isErrorMessagePresent(), equalTo(false));
+		System.out.println("Login page attributes verified.");
+		assertThat(loginPage.isErrorMessageVisible(), equalTo(false));
 	}
 	
 	@Test
 	public void test04_loginPageInvalidUserNegative() {
-		loginPage.logIn("invalid@invalid.com", getPassword());
+		loginPage.logInNegative("invalid@invalid.com", password);
 		verifyMainLoginPageAttributes(loginPage);
-		assertThat(loginPage.isErrorMessagePresent(), equalTo(true));
+		assertThat(loginPage.isErrorMessageVisible(), equalTo(true));
+		assertThat(loginPage.getErrorMessageText()
+				, equalTo(LoginPageElementsTexts.INVALID_CREDENTIALS_MESSAGE.toString()));
 	}
 	
 	@Test
 	public void test05_loginPageInvalidPasswordNegative() {
-		loginPage.logIn(getLogin(), "invalid");
+		loginPage.logInNegative(login, "invalid");
 		verifyMainLoginPageAttributes(loginPage);
-		assertThat(loginPage.isErrorMessagePresent(), equalTo(true));
+		assertThat(loginPage.isErrorMessageVisible(), equalTo(true));
+		assertThat(loginPage.getErrorMessageText()
+				, equalTo(LoginPageElementsTexts.INVALID_CREDENTIALS_MESSAGE.toString()));
 	}
 	
 	@Test
 	public void test06_loginPageInvalidLoginPasswordNegative() {
-		loginPage.logIn("invalid@invalid.com", "invalid");
+		loginPage.logInNegative("invalid@invalid.com", "invalid");
 		verifyMainLoginPageAttributes(loginPage);
-		assertThat(loginPage.isErrorMessagePresent(), equalTo(true));
+		assertThat(loginPage.isErrorMessageVisible(), equalTo(true));
+		assertThat(loginPage.getErrorMessageText()
+				, equalTo(LoginPageElementsTexts.INVALID_CREDENTIALS_MESSAGE.toString()));
 	}
 	
 }

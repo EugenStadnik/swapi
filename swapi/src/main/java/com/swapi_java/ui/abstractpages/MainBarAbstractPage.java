@@ -18,7 +18,7 @@ public abstract class MainBarAbstractPage extends AbstractPage {
 	private By dashboardBtnLocator = By.xpath("//*[@id=\"sidebar-dashboard\"]/span");
 	private By userBtnLocator = By.xpath("//*[@id=\"setting\"]");
 	private By userNameLocator = By.xpath("//*[@id=\"header-navbar\"]/ul[1]/li[3]/div/ul/li[1]/span");
-	private By logOutBtnLocator = By.xpath("//*[@id=\"header-navbar\"]/ul[1]/li[3]/div/ul/li[5]/a");
+	private By logOutBtnLocator = By.xpath("//*[@id=\"header-navbar\"]/ul[1]/li[3]/div/ul/li[5]");
 
 	public enum BarElementsTexts {
     	DASHBOARD("Dashboard"),

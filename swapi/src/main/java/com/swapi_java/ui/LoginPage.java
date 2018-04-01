@@ -6,6 +6,8 @@ package com.swapi_java.ui;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
 
 import com.swapi_java.ui.abstractpages.AbstractPage;
@@ -14,6 +16,7 @@ import com.swapi_java.ui.abstractpages.AbstractPage;
  * @author ystadnik
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LoginPage extends AbstractPage {
     private By logoImgLocator = By.xpath("/html/body/section/div/div/div/div/div/div[1]/div");
     private By welcomeLocator = By.xpath("/html/body/section/div/div/div/div/div/div[2]/a");
@@ -28,7 +31,7 @@ public class LoginPage extends AbstractPage {
     	WELLCOME("Sign up here"),
 		USER_PLACEHOLDER("Email address"),
 		PASSWORD_PLACEHOLDER("Password"),
-		LOGIN_BUTTON("Sign in"),
+		LOGIN_BUTTON("SIGN IN"),
 		INVALID_CREDENTIALS_MESSAGE("Password or email are incorrect");
 		private final String test;
 
@@ -55,6 +58,12 @@ public class LoginPage extends AbstractPage {
         clickLogin();
         return new MainPage(driver);
     }
+    
+    public void logInNegative(String username, String password) {
+        typeUsername(username);
+        typePassword(password);
+        clickLogin();
+    }
 
     // utility methods
     public LoginPage typeUsername(String username) {
@@ -75,13 +84,13 @@ public class LoginPage extends AbstractPage {
         driver.findElement(loginButtonLocator).click();
     }
 
-    public String getErrorMessage() {
+    public String getErrorMessageText() {
         waitForElementToBeVisible(errMsgLocator, TIMEOUT_SECONDS, POLLING_TIME_MILLIS);
         return getText(errMsgLocator);
     }
 
-    public boolean isErrorMessagePresent() {
-        return isElementPresent(errMsgLocator);
+    public boolean isErrorMessageVisible() {
+        return isElementVisible(errMsgLocator);
     }
 
     public String getWelcomeText() {
@@ -89,11 +98,11 @@ public class LoginPage extends AbstractPage {
     }
 
     public String getUsernamePlaceholderText() {
-        return getTextFromPlaceholder(usernamePlaceholderLocator);
+        return getText(usernamePlaceholderLocator);
     }
 
     public String getPasswordPlaceholderText() {
-        return getTextFromPlaceholder(passwordPlaceholderLocator);
+        return getText(passwordPlaceholderLocator);
     }
 
     public String getLogInBtnName() {

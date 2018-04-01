@@ -16,7 +16,7 @@ public class MainPage extends MainBarAbstractPage {
 	private By volumeTextLocator = By.xpath("//*[@id=\"count-total-volume\"]/div/span[1]");
 
 	public enum MainPageElementsTexts {
-    	VOLUNE("Volume");
+    	VOLUNE("VOLUME");
 		private final String test;
 
 		private MainPageElementsTexts(final String test) {
